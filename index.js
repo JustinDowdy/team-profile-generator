@@ -66,10 +66,10 @@ function getHTMLModule(file) {
 
 async function generateHTML() {
     let Template = {
-        Main: await getHTMLModule("./templates/main.html"),
-        Manager: await getHTMLModule("./templates/manager.html"),
-        Engineer: await getHTMLModule("./templates/engineer.html"),
-        Intern: await getHTMLModule("./templates/intern.html")
+        Main: await getHTMLModule("./dist/main.html"),
+        Manager: await getHTMLModule("./dist/manager.html"),
+        Engineer: await getHTMLModule("./dist/engineer.html"),
+        Intern: await getHTMLModule("./dist/intern.html")
     }
 
     let employeesHTML = "";
