@@ -1,5 +1,5 @@
 Video Link
-https://drive.google.com/file/d/1Oj0w-CcrvYdEteL0jjkQ0DzkceGyI3pE/view
+https://watch.screencastify.com/v/4TDyq4PGrc7ng8uXE1RX
 
 USER STORY
 AS A manager
@@ -85,3 +85,6 @@ school
 getSchool()
 
 getRole() // Overridden to return 'Intern'
+
+<img width="1440" alt="Screen Shot 2021-10-07 at 3 07 56 PM" src="https://user-images.githubusercontent.com/83055639/136454877-3855051a-0c37-4da9-bf0b-11fb88f2b8d7.png">
+
