@@ -2,30 +2,28 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 const util = require('util');
-
-const readFile = util.promisify(fs.readFile);
+const appendFile = util.promisify(fs.readFile);
 const writeFile = util.promisify(fs.writeFile);
-
 // Lib modules
-const timestamp = require("./lib/timestamp");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const Manager = require("./lib/Manager");
+const timestamp = require("./lib/timestamp");
 
 const validate = {
-    required: input => input !== '' ? true : "This field is required.",
-    name: input => input !== '' ? true : "Please enter a name.",
+    required: input => input !== '' ? true : "Field is required.",
+    name: input => input !== '' ? true : "Enter a name.",
     id: input => Number.isInteger(Number(input)) && Number(input) > 0 ? true : "Please enter a positive whole number.",
-    email: input => input.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+\@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/gi) ? true : "Please enter a valid email address."
+    email: input => input.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+\@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/gi) ? true : "Enter email address."
 }
 
 const questions = {
     type: function() {
         return {
-            message: "Which type of team member would you like to add?",
+            message: "What type of team member do you want to add?",
             type: "list",
             name: "member",
-            choices: ["Engineer", "Intern", "I don't want to add anymore team members"]
+            choices: ["Engineer", "Intern", "No more."]
         }
     },
     item: function(member, variable, item = variable, validate) {
@@ -61,12 +59,12 @@ async function addRole(member) {
 }
 
 function getHTMLModule(file) {
-    return readFile(file, "utf8");
+    return appendFile(file, "utf8");
 }
 
 async function generateHTML() {
     let Template = {
-        Main: await getHTMLModule("./dist/main.html"),
+        Employee: await getHTMLModule("./dist/employee.html"),
         Manager: await getHTMLModule("./dist/manager.html"),
         Engineer: await getHTMLModule("./dist/engineer.html"),
         Intern: await getHTMLModule("./dist/intern.html")
@@ -92,7 +90,7 @@ async function generateHTML() {
         }
         employeesHTML += html;
     }
-    let completeHTML = Template["Main"].replace(/{% employees %}/gi, employeesHTML);
+    let completeHTML = Template["Employee"].replace(/{% employees %}/gi, employeesHTML);
 
     createHTML(completeHTML);
 }
@@ -113,7 +111,7 @@ async function init() {
     console.log("Please build your team");
     await addRole("Manager");
     let member = "";
-    let exit = "I don't want to add anymore team members";
+    let exit = "No more.";
     while (member != exit) {
         let { member } = await inquirer.prompt(questions.type());
         if (member === exit) {
